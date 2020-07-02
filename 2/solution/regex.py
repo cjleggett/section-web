@@ -56,8 +56,7 @@ def IDE_highlight(st):
 
     Note: auto-tests only work for single-line comments
     """
-    one_line = re.sub(r"#(.*?)\n", "(COMMENT)#\\1(COMMENT)\n", st)
-    return one_line
+    return re.sub(r"#(.*?)\n", "(COMMENT)#\\1(COMMENT)\n", st)
 
 #6
 def piglatinify(st):
