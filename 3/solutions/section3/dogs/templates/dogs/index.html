@@ -4,7 +4,7 @@
         <li><a href="{% url 'newdog' %}">Add a Dog</a></li>
         <li><a href="{% url 'newcity' %}">Add a City</a></li>
     </ul>
-    <h2>Dogs:</h2>
+    <h2>Doggos:</h2>
     <ul>
         {% for dog in dogs %}
             <li><a href="{% url 'dog' dog.id %}">{{ dog }}</a></li>
