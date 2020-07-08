@@ -28,7 +28,7 @@ dogs_people = [
     ("Winston", ["Connor", "Sophie"]),
     ("Willow", ["Sydney"]),
     ("Maisy", ["Caroline"]),
-    ("Fern", ["Nora"])
+        ("Fern", ["Nora"])
 ]
 
 # Make cities:
@@ -40,6 +40,9 @@ for name, zipcode in cities:
 for username, password, name, age in users:
     user_model = User(username=username, name=name, age=age)
     user_model.save()
+
+
+
 
 # Make Dogs:
 for name, age, zipcode in dogs:

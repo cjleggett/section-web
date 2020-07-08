@@ -1,0 +1,17 @@
+{% extends "./layout.html" %}
+{% block body %}
+    <ul>
+        <li>
+            <a href="{% url 'newdog' %}">Add a new Dog</a>
+        </li>
+    </ul>
+    
+    <ul>
+        {% for dog in dogs %}
+            <li>{{ dog }}</li>
+            {% if dog.photo %}
+                <img src="{{ dog.photo }}" alt="photo of dog">
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
