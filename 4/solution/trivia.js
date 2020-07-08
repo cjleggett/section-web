@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 })
 
+// Global variable storing questions
 var QS = [];
 
 startGame = () => {
@@ -29,6 +30,8 @@ startGame = () => {
     .then(response => response.json())
     .then(data => {
         playGame(data["results"]);
+
+        // Store questions in global variable
         QS = data["results"];
     });
 
@@ -42,6 +45,7 @@ playGame = results => {
     document.querySelector('#choose').style.display = 'none';    
     document.querySelector('#questions').style.display = 'inline';
 
+    // Create a submit button for the form
     const form = document.querySelector('#questions');
     subButton = document.createElement('button');
     subButton.classList.add('btn');
@@ -50,17 +54,23 @@ playGame = results => {
     subButton.id = 'ans-sub';
     subButton.innerHTML = 'Submit!';
 
+    // Add each question to the form
     results.forEach((question, index) => {
         form.appendChild(makeQuestion(question, index));
     });
+
+    // Add submit button for the form
     form.appendChild(subButton);
 }
 
-// Note: This is not a well-designed function! I shouldn't include so much HTML in my javascript
 makeQuestion = (question, index) => {
+
+    // Creates a form-group div for the question
     q = document.createElement('div');
     q.classList.add('form-group');
     q.id = `question-${index}`;
+
+    // If The question is true/false, add the true or false dropdown
     if (question["type"] === "boolean") {
         q.innerHTML = `<label for="${q-index}">${question["question"]}</label>
                        <select class="form-control" id="q-${index}">
@@ -68,14 +78,17 @@ makeQuestion = (question, index) => {
                        <option>False</option>
                        </select>`;
     } else {
+
+        // If the question is mc, make an array with all answers
         let answers = question["incorrect_answers"].concat([question["correct_answer"]]);
 
-        // Randomizing order
+        // Randomizing order of array
         let shuffled = answers
         .map((a) => ({sort: Math.random(), value: a}))
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value);
 
+        // Add the multiple choice dropdown
         q.innerHTML = `<label for="${q-index}">${question["question"]}</label>
                        <select class="form-control" id="q-${index}">
                        <option>${shuffled[0]}</option>
@@ -85,27 +98,47 @@ makeQuestion = (question, index) => {
                        </select>`;
     }
 
+    // Return the form
     return q;
 }
 
 endGame = () => {
+
+    // Counter for correct answers
     let correct = 0;
+
     QS.forEach((question, index) => {
+        // Find elements for the div containing the question and the input
         let ans_in = document.querySelector(`#q-${index}`);
         let onPage = document.querySelector(`#question-${index}`);
+
+        // Accessing the user's selected answer
         ans = ans_in.value;
+
+        // For a correct answer, add one to correct and turn question green
         if (ans === question["correct_answer"]) {
             correct += 1;
             onPage.style.backgroundColor = 'chartreuse';
-        } else {
+        } 
+        // For an incorrect answer, change background to red and display the correct answer
+        else {
             onPage.style.backgroundColor = 'lightcoral';
             let realAnswer = document.createElement('p');
             realAnswer.innerHTML = `Correct Answer: ${question["correct_answer"]}`;
             onPage.insertBefore(realAnswer, ans_in);
         }
     });
+
+    // Display the number correct and the play again button
     document.querySelector('#final-score').innerHTML = `${correct}/${QS.length} Correct!`;
-    document.querySelector('#ans-sub').style.display = 'none';
     document.querySelector('#again').style.display = 'inline';
+
+    // Hide the submit button for the answers and disable the inputs
+    document.querySelector('#ans-sub').style.display = 'none';
+    document.querySelectorAll('select').forEach(elt => {
+        elt.disabled = true;
+    })
+    
+    // Prevent default action
     return false;
 }
