@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // Write changeColor function that:
-//  - Changes table-title color to blue if red
+//  - Changes table-title color to blue if not blue
 //  - Changes table-title color to red if blue
 
 // Write the fillTable function that:
