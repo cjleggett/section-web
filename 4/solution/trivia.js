@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#setup').onsubmit = startGame;
-    document.querySelector('#questions').onsubmit = endGame;
+    document.querySelector('#setup').addEventListener('submit', event => startGame(event));
+    document.querySelector('#questions').addEventListener('submit', event => endGame(event));
     document.querySelector('#again').addEventListener('click', () => {
         location.reload();
     });
@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // Global variable storing questions
 var QS = [];
 
-startGame = () => {
+startGame = event => {
+
+    // Prevent form submission
+    event.preventDefault();
     
     // Get information from submission:
     const number = document.querySelector('#num').value;
@@ -102,7 +105,10 @@ makeQuestion = (question, index) => {
     return q;
 }
 
-endGame = () => {
+endGame = event => {
+
+    // Prevent form submission
+    event.preventDefault();
 
     // Counter for correct answers
     let correct = 0;
