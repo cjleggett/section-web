@@ -22,3 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
 });
+
+// TODO:
+// Display an alert when the user reaches the midway point on page 2
+// Add an animation to page 1 (be as creative as you wish here)
