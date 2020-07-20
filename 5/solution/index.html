@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <title>Quizlet50!</title>
+  </head>
+  <body>
+    <div id="app" />
+
+    <script type="text/babel">
+
+      // App for studying existing cards
+      class Study extends React.Component {
+
+        constructor(props) {
+          super(props);
+          this.state = {
+            currentCard: 0,
+            front: true
+          }
+        } 
+
+        render = () => {
+          let cardContent;
+          if (this.state.front) {
+            cardContent = this.props.cards[this.state.currentCard]["front"];
+          } else {
+            cardContent = this.props.cards[this.state.currentCard]["back"];
+          }
+          return (
+            <div onClick={this.flip} className="card">
+              <div className="card-body">
+                <h3 className="card-title">{cardContent}</h3>
+                <br/><br/><br/><br/>
+                <button onClick={this.newCard}>New Card</button>
+              </div>
+            </div>
+          );
+        }
+
+        flip = () => {
+          const nextSide = !this.state.front;
+          this.setState({
+            front: nextSide
+          });
+        }
+
+        newCard = () => {
+          if (this.props.cards.length === 1) {
+            alert("Only one card!");
+            return;
+          }
+
+          const current = this.state.currentCard;
+          let newCard = current;
+          while (newCard === current) {
+            newCard = Math.floor(Math.random() * this.props.cards.length)
+          }
+
+          this.setState({
+            currentCard: newCard,
+            front: true
+          })
+          
+        }
+      }
+
+      // App for creating new cards
+      class Edit extends React.Component {
+
+        constructor(props) {
+          super(props);
+          this.state = {
+            front: "",
+            back: ""
+          }
+        } 
+
+        render = () => {
+          return (
+            <div>
+              <form id="newcard">
+                <textarea onChange={event => this.handleChange(true, event)} placeholder="Term"></textarea>
+                <textarea onChange={event => this.handleChange(false, event)} placeholder="Definition"></textarea>
+                <br/>
+              </form>
+              <button onClick={this.sub}>Add Card!</button>
+            </div>
+          );
+        }
+
+        handleChange = (front, event) => {
+          event.preventDefault();
+          if (front) {
+            this.setState({front: event.target.value});
+          } else {
+            this.setState({back: event.target.value});
+          }
+        }
+
+        sub = () => {
+          document.getElementById("newcard").reset();
+          this.props.add(this.state.front, this.state.back);
+        }
+      }
+
+      // Main Application
+      class App extends React.Component {
+
+        constructor(props) {
+          super(props);
+          this.state = {
+            currentPage: "edit",
+            cards: []
+          }
+        } 
+
+        render = () => {
+          let content;
+          if (this.state.currentPage === "edit") {
+            content = <Edit add={this.addCard}/>;
+          } else {
+            console.log(this.state.cards);
+            content = <Study cards={this.state.cards}/>;
+          }
+
+          return (
+            <div className="App">
+              <h1>Welcome to Quizlet50!</h1>
+              <div className="btn-group">
+                <button onClick={() => this.togglePage("edit")} type="button" className="btn btn-primary">Create Cards</button>
+                <button onClick={() => this.togglePage("study")} type="button" className="btn btn-primary">Study</button>
+              </div>
+              <br/><br/><br/>
+              <div>
+                {content}
+              </div>
+            </div>
+          );
+        }
+
+        togglePage = newPage => {
+          if (newPage === "study" && this.state.cards.length === 0) {
+            alert("Create some cards before studying!");
+            return;
+          }
+          this.setState({
+            currentPage: newPage
+          })
+        }
+
+        addCard = (front, back) => {
+          let cards = [...this.state.cards];
+          cards.push({"front": front, "back": back});
+          this.setState({
+            cards: cards
+          })
+        }
+      }
+        
+      ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+  </body>
+</html>
