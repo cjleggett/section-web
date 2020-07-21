@@ -1,0 +1,19 @@
+@keyframes color {
+    0% {
+        color: black;
+    }
+    50% {
+        color: red;
+    }
+    100% {
+        color: black;
+    }
+}
+
+
+
+#page1 > h1 {
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
