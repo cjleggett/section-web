@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 newGame = () => {
-    currentNumber = Math.floor(Math.random() * 100) + 1;
+    currentNumber = Math.floor(Math.random() * 100000) + 1;
     message = document.querySelector("#message")
     message.innerHTML = ""
     message.style.color = 'black'

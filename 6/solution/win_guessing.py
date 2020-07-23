@@ -1,17 +1,9 @@
-import os
-import pathlib
-
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Find URI of file
-def file_uri(filename):
-    return pathlib.Path(os.path.abspath(filename)).as_uri()
-uri = file_uri("index.html")
-
 # Starts chrome driver:
 driver = webdriver.Chrome(ChromeDriverManager().install())
-driver.get(uri)
+driver.get("https://cjleggett.github.io/section-web/6/solution/index.html")
 
 num_input = driver.find_element_by_name("num")
 message = driver.find_element_by_id("message")
