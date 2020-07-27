@@ -1,5 +1,5 @@
 """
-Write a function filter(ls, n) that:
+Write a function seive(ls, n) that:
 
 Takes in:
     -ls: A list of integers

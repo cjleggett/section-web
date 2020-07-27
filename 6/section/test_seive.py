@@ -1,2 +1,2 @@
-# Write some tests for filter using unittest
+# Write some tests for seive using unittest
 import unittest
