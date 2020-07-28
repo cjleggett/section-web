@@ -1,5 +1,5 @@
 """
-Write a function seive(ls, n) that:
+Write a function sieve(ls, n) that:
 
 Takes in:
     -ls: A list of integers
@@ -12,7 +12,7 @@ Outputs:
     -If n or an element of ls is not an integer, throw an exception
 """
 
-def seive(ls, n):
+def sieve(ls, n):
 
     # Check for 0 as n value
     if n == 0:
