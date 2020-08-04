@@ -12,3 +12,13 @@ Outputs:
     -If n or an element of ls is not an integer, throw an exception
 """
 
+def sieve(ls, n):
+    try:
+        new_ls = list()
+        for i in ls:
+            if i % n:
+                new_ls.append(i)
+        return new_ls
+    except TypeError:
+        print("n must be an integer")
+        raise ValueError()

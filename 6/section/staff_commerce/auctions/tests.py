@@ -64,7 +64,10 @@ class CommerceTestCase(TestCase):
     def test_valid_listing(self):
         """Testing output of a valid listing page"""
         listing = Listing.objects.get(title="Red Leather Chair")
-        self.c.get(f"/listings/{listing.id}")
+        response = self.c.get(f"/listings/{listing.id}")
+        lister = response.context["listing"].seller.username
+        self.assertEqual(lister, "b")
+
 
     def test_invalid_listing(self):
         """Testing listing page when it doesn't exist"""
